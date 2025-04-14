@@ -1,20 +1,21 @@
 {
   "name": "puppeteer-api",
   "version": "1.0.0",
-  "description": "",
-  "type": "module",
+  "description": "A simple Puppeteer API to fetch content from privacy policy URLs.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "postinstall": "echo Skipping puppeteer install"
+    "dev": "nodemon index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "express": "^5.1.0",
-    "puppeteer": "^24.6.1"
+    "express": "^4.18.1",
+    "puppeteer": "^20.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
