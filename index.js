@@ -2,30 +2,39 @@ import express from 'express';
 import puppeteer from 'puppeteer';
 
 const app = express();
+const port = 3000;
+
 app.use(express.json());
 
+// Your Puppeteer fetch route
 app.post('/fetch', async (req, res) => {
   const { url } = req.body;
-  if (!url) return res.status(400).json({ error: 'Missing URL' });
+
+  if (!url) {
+    return res.status(400).json({ error: 'URL is required.' });
+  }
 
   try {
     const browser = await puppeteer.launch({
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'networkidle2' });
+    await page.goto(url);
 
-    const title = await page.title();
-    const content = await page.evaluate(() => document.body.innerText);
+    const content = await page.content(); // Get the page's HTML content
 
     await browser.close();
-    res.json({ title, content });
-  } catch (err: any) {
-    res.status(500).json({ error: `Puppeteer error: ${err.message}` });
+
+    res.json({ content });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch policy from URL using Puppeteer.' });
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+// Start server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
