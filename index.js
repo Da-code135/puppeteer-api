@@ -10,7 +10,7 @@ const port = 3000;
 
 app.use(express.json());
 
-// Your Puppeteer fetch route
+// Puppeteer fetch route
 app.post('/fetch', async (req, res) => {
   const { url } = req.body;
 
@@ -37,14 +37,13 @@ app.post('/fetch', async (req, res) => {
 
     res.json({ content });
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching URL content:", error);
     res.status(500).json({ error: 'Failed to fetch content from URL using Puppeteer.' });
   }
 });
 
 // Start server
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
 });
